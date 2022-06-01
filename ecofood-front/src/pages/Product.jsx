@@ -27,7 +27,7 @@ const Product = props => {
             </Section>
             <Section>
                 <SectionTitle>
-                   titreeeeeeeee 4444
+                plats  végétariennes
                 </SectionTitle>
                 <SectionBody>
                     <Grid

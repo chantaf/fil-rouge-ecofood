@@ -16,7 +16,7 @@ const heroSliderData = [
         description: "Le Site est accessible 24/24h et 7/7j, sauf interruption, programmée ou non par Ecofood, notamment pour les besoins de sa maintenance, d’une suspension d’activité ou en cas de force majeure. Ecofood ne saurait être tenue responsable de tout dommage, quelle qu’en soit la nature, résultant d’une indisponibilité du Site.La mise à disposition du compte du Client ne lui ouvre aucun droit et ne crée aucune obligation à la charge de Ecofood La transmission d’informations par internet peut ne pas être totalement sécurisée.",
         img: img2,
         path: "/catalog/ao-thun-dinosaur-02",
-        color: "orange"
+        color: "orange",
     },
     {
         title: "Livraison",

@@ -52,7 +52,7 @@ const Home = () => {
             {/* best selling section */}
             <Section>
                 <SectionTitle>
-                    titreeee 11111111
+                Assiette végétarienne
                 </SectionTitle>
                 <SectionBody>
                     <Grid
@@ -81,7 +81,7 @@ const Home = () => {
             {/* new arrival section */}
             <Section>
                 <SectionTitle>
-                    titreee 222222222222
+                Potée de légumes végétarienne
                 </SectionTitle>
                 <SectionBody>
                     <Grid
@@ -120,7 +120,7 @@ const Home = () => {
             {/* popular product section */}
             <Section>
                 <SectionTitle>
-                   titre 33333333333333
+                salade végétariennes
                 </SectionTitle>
                 <SectionBody>
                     <Grid

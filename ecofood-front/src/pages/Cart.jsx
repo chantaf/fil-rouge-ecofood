@@ -39,10 +39,13 @@ const Cart = () => {
                         </div>
                     </div>
                     <div className="cart__info__btn">
+                    {/* <Link to="/Info"> */}
                         <Button size="block">
                             Valider
                         </Button>
-                        <Link to="/catalog">
+                    {/* </Link> */}
+               
+                        <Link to="/">
                             <Button size="block">
                                 Menu
                             </Button>
