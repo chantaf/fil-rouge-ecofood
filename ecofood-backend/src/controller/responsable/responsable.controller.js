@@ -1,32 +1,34 @@
 const responsables = require("../../models/responsable/responsable.model");
 const bcrypt = require('bcryptjs');
 const { comparePassword } = require('../../helpers/JwtValidation');
-const nodemailer = require('nodemailer');
 
-
-
-function envoie(email,password){
-    var nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer');
+//envoyer mail
+function envoyermail(email,password){
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'testcoding975@gmail.com',
-        pass: 'testCoding1998'
-      }
-    });    
-    var mailOptions = {
-      from: 'testcoding975@gmail.com',
-      to: email,
-      subject: 'Voila votre nouveau compte, avec le password',
-      text:'Votre password est : '+ password
-    };
-    
-    // transporter.sendMail(mailOptions, function(error, info){
-    //     if (err) {
-    //         return log('Error occurs');
-    //     }
-    // });
+        service: 'gmail',
+        auth: {
+          user: 'teste011.test@gmail.com',
+          pass: '123azerTY'
+        }
+      });
+      
+      var mailOptions = {
+        from: 'teste011.test@gmail.com',
+        to: email,
+        subject: 'password compte',
+        text: 'voila votre password de ce compte :'+password
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+})
 }
+
 
 //login responsable
 const loginresponsable = async (req, res) => {
@@ -35,7 +37,7 @@ const loginresponsable = async (req, res) => {
     try {
         if (!email || !password) return res.status(404).json({ message: "Please fill all the fields" }) // input validation
         const existingresponsable = await responsables.findOne({ email }) // find user data with email
-        if (!existingresponsable) return res.status(404).json({ message: "responsable not found"}) // error message
+        if (!existingresponsable) return res.status(201).json({ message: "email ou password incorect"}) // error message
         const role = 'responsable';
         comparePassword(password, existingresponsable, role, res) // comporassion password && data => jwt
     } catch (error) {
@@ -43,31 +45,6 @@ const loginresponsable = async (req, res) => {
     }
 }
 
-
-//envoyer mail
-function envoyermail(email,password){
-        var nodemailer = require('nodemailer');
-        var transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'testcoding975@gmail.com',
-            pass: 'testCoding1998'
-          }
-        });    
-        var mailOptions = {
-          from: 'testcoding975@gmail.com',
-          to: email,
-          subject: 'Voila votre password  :',
-          text:'password : '+  password
-        };
-        
-        transporter.sendMail(mailOptions, function(error, info){
-            if (err) {
-                return log('Error occurs');
-            }
-        });
-        
-    }
 
 
 // get all responsable 
@@ -128,7 +105,7 @@ const store = async (req, res) => {
 
 //delete responsable
 const deleteresponsable = async (req, res) => {
-    const id=req.params
+    const id=req.params.id
     try {
         await responsables.findByIdAndDelete(id) //delete responsable by id
         res.status(200).json( "responsable supprimer avec success" )
@@ -141,19 +118,19 @@ const deleteresponsable = async (req, res) => {
 //Update  compte responsable
 const updateresponsable = async (req, res) => {
     //get body from http req 
-    const {nom, prenom, email ,password}= req.body
+    const {nom, prenom, email }= req.body
     const id=req.params
-    const record = { _id: id };
+    
+    // const record = { _id: id };
     try {
-        if (!nom || !prenom || !email  || !password )
+        if (!nom || !prenom || !email   )
             return res.status(400).json({ message: "Please fill all the fields" }) // input validation
         
-        const updateresponsable = await responsables.updateOne(record, {
+        const updateresponsable = await responsables.updateOne(id, {
             $set: {
                 nom: nom,
                 prenom: prenom,
                 email: email,
-                password: password,
             }
         })
         res.status(200).json({ updateresponsable })

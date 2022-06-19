@@ -1,10 +1,6 @@
 const mongoose = require('mongoose')
 
 const commandeSchema = new mongoose.Schema({
-    quantite: {
-        type: String,
-        required: true
-    },
     date: {
         type: String,
         required: true
@@ -25,9 +21,9 @@ const commandeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    produit: {type:mongoose.Schema.ObjectId, ref: 'produits'},
+    produit:[{type:mongoose.Schema.ObjectId, ref: 'produit'}],
     client: {type:mongoose.Schema.ObjectId, ref: 'clients'},
-    livreur: {type:mongoose.Schema.ObjectId, ref: 'livreurs'},
+    livreur: {type:mongoose.Schema.ObjectId,default:null, ref: 'livreurs'},
 })
 
 module.exports = mongoose.model('commande', commandeSchema)

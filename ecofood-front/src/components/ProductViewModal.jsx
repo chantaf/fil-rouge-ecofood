@@ -13,6 +13,7 @@ import productData from '../assets/fake-data/products'
 const ProductViewModal = () => {
 
     const productSlug = useSelector((state) => state.productModal.value)
+
     const dispatch = useDispatch()
 
     const [product, setProduct] = useState(undefined)
@@ -27,7 +28,7 @@ const ProductViewModal = () => {
                 <ProductView product={product}/>
                 <div className="product-view__modal__content__close">
                     <Button
-                        size="sm"    
+                        // size="sm"    
                         onClick={() => dispatch(remove())}
                     >
                         done

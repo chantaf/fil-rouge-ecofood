@@ -1,5 +1,5 @@
-import React from 'react'
-
+import axios from "axios";
+import React ,{ useState ,useEffect }from 'react'
 import Helmet from '../components/Helmet'
 import Section, {SectionBody, SectionTitle} from '../components/Section'
 import Grid from '../components/Grid'
@@ -10,7 +10,29 @@ import productData from '../assets/fake-data/products'
 
 const Product = props => {
 
-    const product = productData.getProductBySlug(props.match.params.slug)
+    const [produits, setproduits] = useState([]);
+    const [categories, setcategories] = useState([]);
+
+    // const data  = 
+useEffect(() => {
+    axios.get(`http://localhost:4000/api/produits/`) .then(res=> setproduits(res.data.produit));
+    
+}, []);
+
+useEffect(() => {
+    axios.get(`http://localhost:4000/api/categories/`) .then(res=> setcategories(res.data.categorie));
+}, []);
+
+    let ref4;
+   categories.map((item, index) => (
+    item.nom === "plats  végétariennes" ? ref4 = item._id
+    :null
+  ))
+
+    const product="";
+    produits.map((item, index) => (
+        item._id === props.slug ? product=item : null
+    ))
 
     const relatedProducts = productData.getProducts(8)
 
@@ -19,7 +41,7 @@ const Product = props => {
     }, [product])
 
     return (
-        <Helmet title={product.title}>
+        <Helmet title="card">
             <Section>
                 <SectionBody>
                     <ProductView product={product}/>
@@ -36,7 +58,7 @@ const Product = props => {
                         smCol={1}
                         gap={20}
                     >
-                        {
+                        {/* {
                             relatedProducts.map((item, index) => (
                                 <ProductCard
                                     key={index}
@@ -46,6 +68,22 @@ const Product = props => {
                                     price={Number(item.price)}
                                     slug={item.slug}
                                 />   
+                            ))
+                        } */}
+                        {
+                            
+                            produits.map((item, index) => (
+                              item.categorie._id === ref4 ? 
+                                <ProductCard
+                                    key={index}
+                                    img01={item.image}
+                                    img02={item.image}
+                                    name={item.nom}
+                                    price={Number(item.prix)}
+                                    slug={item._id}
+                                    
+                                />
+                                :null
                             ))
                         }
                     </Grid>

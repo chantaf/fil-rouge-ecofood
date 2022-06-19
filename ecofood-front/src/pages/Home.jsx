@@ -1,4 +1,4 @@
-import React from 'react'
+import React ,{ useState ,useEffect }from 'react'
 import { Link } from 'react-router-dom'
 
 import Helmet from '../components/Helmet'
@@ -14,7 +14,35 @@ import productData from '../assets/fake-data/products'
 
 import banner from '../assets/images/banner1.jpg'
 
+import axios from "axios";
+
+
+
 const Home = () => {
+    const [produits, setproduits] = useState([]);
+    const [categories, setcategories] = useState([]);
+// const data  = 
+useEffect(() => {
+    axios.get(`http://localhost:4000/api/produits/`) .then(res=> setproduits(res.data.produit));
+    
+}, []);
+
+useEffect(() => {
+    axios.get(`http://localhost:4000/api/categories/`) .then(res=> setcategories(res.data.categorie));
+}, []);
+
+
+    let ref1;
+    let ref2;
+    let ref3;
+   categories.map((item, index) => (
+    item.nom === "Assiette végétarienne" ? ref1 = item._id 
+    : item.nom === "Potée de légumes végétarienne" ? ref2 = item._id
+    : item.nom === "salade végétariennes" ? ref3 = item._id
+    :null
+  ))
+      
+ 
     return (
         <Helmet title="Eco Food">
             {/* hero slider */}
@@ -62,15 +90,19 @@ const Home = () => {
                         gap={20}
                     >
                         {
-                            productData.getProducts(4).map((item, index) => (
+                            
+                            produits.map((item, index) => (
+                              item.categorie._id === ref1 ? 
                                 <ProductCard
                                     key={index}
-                                    img01={item.image01}
-                                    img02={item.image02}
-                                    name={item.title}
-                                    price={Number(item.price)}
-                                    slug={item.slug}
+                                    img01={item.image}
+                                    img02={item.image}
+                                    name={item.nom}
+                                    price={Number(item.prix)+"DH"}
+                                    slug={item._id}
+                                   
                                 />
+                                :null
                             ))
                         }
                     </Grid>
@@ -90,16 +122,20 @@ const Home = () => {
                         smCol={1}
                         gap={20}
                     >
-                        {
-                            productData.getProducts(8).map((item, index) => (
+                       
+                         {
+                            
+                            produits.map((item, index) => (
+                              item.categorie._id === ref2 ? 
                                 <ProductCard
                                     key={index}
-                                    img01={item.image01}
-                                    img02={item.image02}
-                                    name={item.title}
-                                    price={Number(item.price)}
-                                    slug={item.slug}
+                                    img01={item.image[0]}
+                                    img02={item.image[1]}
+                                    name={item.nom}
+                                    price={Number(item.prix)}
+                                    slug={item._id}
                                 />
+                                :null
                             ))
                         }
                     </Grid>
@@ -129,16 +165,21 @@ const Home = () => {
                         smCol={1}
                         gap={20}
                     >
-                        {
-                            productData.getProducts(12).map((item, index) => (
+                        
+                         {
+                            
+                            produits.map((item, index) => (
+                              item.categorie._id === ref3 ? 
                                 <ProductCard
                                     key={index}
-                                    img01={item.image01}
-                                    img02={item.image02}
-                                    name={item.title}
-                                    price={Number(item.price)}
-                                    slug={item.slug}
+                                    img01={item.image}
+                                    img02={item.image}
+                                    name={item.nom}
+                                    price={Number(item.prix)+"DH"}
+                                    slug={item._id}
+                                   
                                 />
+                                :null
                             ))
                         }
                     </Grid>

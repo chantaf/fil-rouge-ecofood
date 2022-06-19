@@ -6,9 +6,10 @@ const router = express.Router();
 
 //commande
 router.get('/', commande.index);
+router.get('/status', commande.getByStatus);
 router.get('/count', commande.countcommande);
 router.post('/store', commande.store);
-router.put('/:_id', commande.updateStatus);
-router.put('/affecter/:_id', commande.affectercommande);
+router.put('/:id', commande.updateStatus);
+router.put('/affecter/:id', commande.affectercommande);
 
 module.exports = router;

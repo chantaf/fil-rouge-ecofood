@@ -18,9 +18,9 @@ export const cartItemsSlice = createSlice({
                 state.value = [...state.value, {
                     id: duplicate[0].id,
                     slug: newItem.slug,
-                    //color: newItem.color,
-                    //size: newItem.size,
-                    price: newItem.price,
+                    price: newItem.prix,
+                    image: newItem.image,
+                    nom: newItem.nom,
                     quantity: newItem.quantity + duplicate[0].quantity
                 }]
             } else {
@@ -39,9 +39,9 @@ export const cartItemsSlice = createSlice({
                 state.value = [...state.value, {
                     id: item[0].id,
                     slug: newItem.slug,
-                    //color: newItem.color,
-                    //size: newItem.size,
+                    image: newItem.image,
                     price: newItem.price,
+                    nom: newItem.nom,
                     quantity: newItem.quantity
                 }]
             }

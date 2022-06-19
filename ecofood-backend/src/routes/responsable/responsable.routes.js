@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', responsable.index);
 router.post('/store', responsable.store);
 router.post('/login', responsable.loginresponsable);
-router.delete('/delete/:_id', responsable.deleteresponsable);
-router.put('/update/:_id', responsable.updateresponsable);
+router.delete('/:id', responsable.deleteresponsable);
+router.put('/:id', responsable.updateresponsable);
 
 module.exports = router;

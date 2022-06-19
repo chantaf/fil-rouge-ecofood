@@ -12,7 +12,7 @@ const loginlivreur = async (req, res) => {
     try {
         if (!email || !password) return res.status(404).json({ message: "Please fill all the fields" }) // input validation
         const existinglivreur = await livreurs.findOne({ email }) // find user data with email
-        if (!existinglivreur) return res.status(404).json({ message: "livreur not found"}) // error message
+        if (!existinglivreur) return res.status(201).json({ message: "email ou password incorcte"}) // error message
         const role = 'livreur';
         comparePassword(password, existinglivreur, role, res) // comporassion password && data => jwt
     } catch (error) {
@@ -27,22 +27,22 @@ function envoyermail(email,password){
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'testcoding975@gmail.com',
-        pass: 'testCoding1998'
+        user: 'teste011.test@gmail.com',
+        pass: '123azerTY'
       }
     });    
     var mailOptions = {
-      from: 'testcoding975@gmail.com',
+      from: 'teste011.test@gmail.com',
       to: email,
       subject: 'Voila votre  password  :',
       text:'password : '+  password
     };
     
-    transporter.sendMail(mailOptions, function(error, info){
-        if (err) {
-            return log('Error occurs');
-        }
-    });
+    // transporter.sendMail(mailOptions, function(error, info){
+    //     if (err) {
+    //         return log('Error occurs');
+    //     }
+    // });
     
 }
 
@@ -102,6 +102,7 @@ const store = async (req, res) => {
             tel,
             role:role
         })
+        console.log(generatPassword)
         res.status(200).json({ newManager })
         envoyermail(email,generatPassword)
         res.status(200).json("livreur ajouter avec success")
@@ -118,6 +119,7 @@ const store = async (req, res) => {
 //delete livreur
 const deletelivreur = async (req, res) => {
     const { id } = req.params
+
     try {
         await livreurs.findByIdAndDelete(id) //delete livreur by id
         res.status(200).json({ message: "livreur supprimer avec success" })
@@ -129,20 +131,18 @@ const deletelivreur = async (req, res) => {
 //Update  compte livreur
 const updatelivreur = async (req, res) => {
     //get body from http req 
-    const {nom, prenom, email ,password,tel}= req.body
+    const {nom, prenom, email,tel}= req.body
     const role="livreur";
-    const id=req.params
-    const record = { _id: id };
+    const id=req.params;
     try {
-        if (!nom || !prenom || !email  || !password || !tel)
+        if (!nom || !prenom || !email  || !tel)
             return res.status(400).json({ message: "Please fill all the fields" }) // input validation
         
-        const updateadmin = await admins.updateOne(record, {
+        const updateadmin = await livreurs.updateOne(id, {
             $set: {
                 nom: nom,
                 prenom: prenom,
                 email: email,
-                password: password,
                 tel: tel,
                 role: role
             }

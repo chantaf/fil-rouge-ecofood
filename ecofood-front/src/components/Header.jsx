@@ -14,11 +14,11 @@ const mainNav = [
     },
     {
         display: "Au menu",
-        path: "/accessories"
+        path: "/"
     },
     {
         display: "Besoin d'aide ?",
-        path: "/contact"
+        path: "/apropos"
     }
 ]
 
@@ -32,9 +32,9 @@ const Header = () => {
     useEffect(() => {
         window.addEventListener("scroll", () => {
             if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-                headerRef.current.classList.add('shrink')
+                headerRef?.current.classList.add('shrink')
             } else {
-                headerRef.current.classList.remove('shrink')
+                headerRef?.current.classList.remove('shrink')
             }
         })
         return () => {
@@ -86,7 +86,10 @@ const Header = () => {
                             </Link>
                         </div>
                         <div className="header__menu__item header__menu__right__item">
-                            <i className="bx bx-user"></i>
+                           <Link to="/Compte">
+                                  <i className="bx bx-user"></i>
+                           </Link>
+                            
                         </div>
                     </div>
                 </div>

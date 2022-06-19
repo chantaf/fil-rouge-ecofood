@@ -1,6 +1,7 @@
 const admins = require("../../models/admin/admin.model");
 const bcrypt = require('bcryptjs');
 const { comparePassword } = require('../../helpers/JwtValidation');
+const jwt = require('jsonwebtoken')
 
 
 //login admin
@@ -10,7 +11,7 @@ const loginadmin = async (req, res) => {
     try {
         if (!email || !password) return res.status(404).json({ message: "Please fill all the fields" }) // input validation
         const existingadmin = await admins.findOne({ email }) // find user data with email
-        if (!existingadmin) return res.status(404).json({ message: "admin not found"}) // error message
+        if (!existingadmin) return res.status(201).json({ message: "email ou password incorect"}) // error message
         const role = 'admin';
         comparePassword(password, existingadmin, role, res) // comporassion password && data => jwt
     } catch (error) {
@@ -34,7 +35,6 @@ const index = async (req, res) => {
 const store = async (req, res) => {
     //get body from http req 
     const {nom, prenom, email ,password} = req.body
-   
     try {
         if (!nom || !prenom || !email  || !password )
             return res.status(400).json({ message: "Please fill all the fields" }) // input validation
@@ -81,12 +81,12 @@ const updateadmin = async (req, res) => {
     //get body from http req 
     const {nom, prenom, email ,password}= req.body
     const id=req.params
-    const record = { _id: id };
+    // const record = { _id: id };
     try {
         if (!nom || !prenom || !email  || !password )
             return res.status(400).json({ message: "Please fill all the fields" }) // input validation
         
-        const updateadmin = await admins.updateOne(record, {
+        const updateadmin = await admins.updateOne(id, {
             $set: {
                 nom: nom,
                 prenom: prenom,
@@ -102,10 +102,28 @@ const updateadmin = async (req, res) => {
 }
 
 
+const getDataUser=async(req, res)=>{
+    let token = req.body.token;
+  
+    if (!token) {
+      return res.status(403).send({ message: "No token provided!" });
+    }
+  
+    jwt.verify(token,`${process.env.JWT_SECRET_KEY}`, (err,decoded) => {
+      if (err) {
+        return res.status(401).send({ message: "Unauthorized!" });
+      }
+      // req.userId = decoded.id;
+      res.status(200).send({ data:decoded});
+
+    });
+  }
+
 module.exports = {
     index,
     loginadmin,
     store,
     deleteadmin,
-    updateadmin
+    updateadmin,
+    getDataUser
 };

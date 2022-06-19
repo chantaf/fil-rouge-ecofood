@@ -9,7 +9,7 @@ const loginClient = async (req, res) => {
     try {
         if (!email || !password) return res.status(404).json({ message: "Please fill all the fields" }) // input validation
         const existingClient = await clients.findOne({ email }) // find user data with email
-        if (!existingClient) return res.status(404).json({ message: "client not found"}) // error message
+        if (!existingClient) return res.status(201).json({ message: "email ou password incorect"}) // error message
         const role = 'client';
         comparePassword(password, existingClient, role, res) // comporassion password && data => jwt
     } catch (error) {
@@ -47,7 +47,7 @@ const store = async (req, res) => {
         if (!email || !nom || !prenom || !tel || !password )
             return res.status(400).json({ message: "Please fill all the fields" }) // input validation
         const existingClient = await clients.findOne({ email }) // find user data with email
-        if (existingClient) return res.status(400).json({ message: "client already exists" })  //error message
+        if (existingClient) return res.status(201).json({ message: "client déja exists" })  //error message
         const hashedPassword = await bcrypt.hash(password, 10) //hashing password 
         // add client
         const newclient = await clients.create({
@@ -58,10 +58,10 @@ const store = async (req, res) => {
             tel,
             role
         })
-        res.status(200).json({ newclient })
-        res.status(200).json("client ajouter avec success")
+        // res.status(200).json({ newclient })
+        res.status(200).json({message:"client ajouter avec success"})
     } catch (err) {
-        res.status(400).json({ error: err.message }) // req error
+        res.status(202).json({ error: err.message }) // req error
     }
 }
 

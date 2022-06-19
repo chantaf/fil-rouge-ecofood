@@ -4,13 +4,29 @@ const commande = require("../../models/commande/commande.model");
 // get all commandes 
 const index = async (req, res) => {
     try {
-        const commandes = await commande.find().populate('produits').populate('clients').populate('livreurs')
+        const commandes = await commande.find().populate('produit').populate('client').populate('livreur')
         res.status(200).json({commandes})
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
 }
 
+// get by status
+const getByStatus = async (req, res) => {
+    var commandess=[];
+    try {
+        const commandes = await commande.find().populate('produit').populate('client').populate('livreur')
+        commandes.map(commande => {
+            if (commande.status != "valider") {
+                commandess.push(commande)
+                
+            }
+        })
+        res.status(200).json({ commandess })
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
 
 // count all commande 
 const countcommande = async (req, res) => {
@@ -22,27 +38,29 @@ const countcommande = async (req, res) => {
     }
 
 }
+
+
+
 //add new commande
 const store = async (req, res) => {
     //get body from http req
-    const { produit, clients, quantite, prix, adress,tel } = req.body
+    const { produit,client,prix,adress,tel } = req.body
     const date = new Date(); 
     try {
-        if (!produit || !clients || !quantite || !prix || !adress || !tel)
+        if (!produit || !client  || !prix || !adress || !tel)
+            
             return res.status(400).json({ message: "Please fill all the fields" }) // input validation
             // add produit
             const newcommande = await commande.create({
                 produit,
-                clients,
-                quantite,
+                client,
                 prix,
                 adress,
                 tel,
                 date: date,
                 status:'encours'
             })
-            res.status(201).json(newcommande)
-            res.status(201).json("commande ajouter avec success")
+            res.status(200).json("commande ajouter avec success")
 
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -54,7 +72,7 @@ const store = async (req, res) => {
 const updateStatus  = async (req, res) => {
     try {
         const updateStatus = await commande.updateOne(
-            {_id:req.params.id},
+            {id:req.params.id},
             {$set: { status:req.body.status }}
         )
         res.status(200).json(updateStatus)
@@ -66,10 +84,17 @@ const updateStatus  = async (req, res) => {
 
 //affecter commande status
 const affectercommande  = async (req, res) => {
+    const {livreur} = req.body
+    const id = req.params.id
+    const record = { _id: id };
+    // console.log(id)
     try {
-        const affecter = await commande.updateOne(
-            {_id:req.params.id},
-            {$set: { livreur:req.body.livreur }}
+        const affecter = await commande.updateOne(record,
+            {$set:
+                 { 
+                  livreur:livreur
+                 }
+            }
         )
         res.status(200).json(affecter)
         res.status(201).json(" commande affecter avec success")
@@ -85,5 +110,6 @@ module.exports = {
     store,
     updateStatus,
     countcommande,
-    affectercommande
+    affectercommande,
+    getByStatus
 }
