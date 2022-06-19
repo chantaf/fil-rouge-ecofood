@@ -141,7 +141,6 @@ useEffect(() => {
                     </Grid>
                 </SectionBody>
             </Section>
-            {/* end new arrival section */}
             
             {/* banner */}
             <Section>

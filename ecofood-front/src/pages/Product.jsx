@@ -58,18 +58,7 @@ useEffect(() => {
                         smCol={1}
                         gap={20}
                     >
-                        {/* {
-                            relatedProducts.map((item, index) => (
-                                <ProductCard
-                                    key={index}
-                                    img01={item.image01}
-                                    img02={item.image02}
-                                    name={item.title}
-                                    price={Number(item.price)}
-                                    slug={item.slug}
-                                />   
-                            ))
-                        } */}
+                        
                         {
                             
                             produits.map((item, index) => (

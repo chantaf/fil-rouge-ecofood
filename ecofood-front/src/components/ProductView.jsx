@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 
 import { useDispatch } from "react-redux";
-
+import swal from "sweetalert";
 import { addItem } from "../redux/shopping-cart/cartItemsSlide";
 import { remove } from "../redux/product-modal/productModalSlice";
 import { useParams } from "react-router";
@@ -54,26 +54,6 @@ const ProductView = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //     setPreviewImg(product.image01)
-  //     setQuantity(1)
-  //     setColor(undefined)
-  //     setSize(undefined)
-  // }, [product])
-
-  // const check = () => {
-  //     if (color === undefined) {
-  //         alert('Vui lòng chọn màu sắc!')
-  //         return false
-  //     }
-
-  //     if (size === undefined) {
-  //         alert('Vui lòng chọn kích cỡ!')
-  //         return false
-  //     }
-
-  //     return true
-  // }
 
   const addToCart = () => {
 
@@ -85,7 +65,12 @@ const ProductView = (props) => {
       image: product.image,
     };
     if (dispatch(addItem(newItem))) {
-      alert("Success");
+      swal({
+        title: "Produit Ajouté avec success!",
+        text: "",
+        icon: "success",
+        button: "Ok",
+      });
     } else {
       alert("Fail");
     }

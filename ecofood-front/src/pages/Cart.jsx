@@ -36,7 +36,12 @@ const Cart = () => {
     const history = useHistory();
 
     const handelclick = () => {
-        history.push('/Info');
+        if(localStorage.getItem('client') === null){
+            history.push('/Compte');
+        }else{
+            history.push('/Info');
+        }
+       
     }
 
 
@@ -55,7 +60,7 @@ const Cart = () => {
                     </div>
                     <div className="cart__info__btn ">
                      
-                        <Button size="block" onClick={handelclick}  >
+                        <Button size="block" onClick={handelclick}>
                             Valider
                         </Button>
                    

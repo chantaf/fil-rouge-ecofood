@@ -15,7 +15,7 @@ import numberWithCommas from '../utils/numberWithCommas'
 const ProductCard = props => {
 
     const [product, setProduct] = useState(null);
-//   const params = useParams();
+
 
   useEffect(() => {
     var myHeaders = new Headers();
@@ -69,7 +69,7 @@ const ProductCard = props => {
         } else {
           alert("Fail");
         }
-        // console.log(newItem);
+       
       };
     return (
 
@@ -84,13 +84,13 @@ const ProductCard = props => {
                 <div className="product-card__price">
                     {props.price}
                     <span className="product-card__price__old">
-                        {/* <del>{numberWithCommas(399000)}</del> */}
+                        
                     </span>
                 </div>
             </Link>
             <div className="product-card__btn">
                 <Button
-                    // size="sm"    
+                   
                     icon="bx bx-cart"
                     animate={true}
                     onClick={() => addToCart()}
